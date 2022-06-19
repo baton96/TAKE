@@ -1,0 +1,44 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui">
+    <h:head>
+        <title>PrimeFaces</title>
+    </h:head>
+    <h:body>
+
+        <p:tabView>
+
+            <p:tab title="Form">
+                <h:form>
+                    <p:growl id="growl" showDetail="true"/>
+
+                    <p:spinner id="a" value="#{indexBean.a}"/>
+                    +
+                    <p:spinner id="b" value="#{indexBean.b}"/>
+                    <p:commandButton value="Calculate" update="sum date growl" actionListener="#{indexBean.showGrowl}"/>
+                    =
+                    <h:outputText id="sum" value="#{indexBean.sum()}"/>
+                    <br />
+                    <h:outputText id="date" value="#{indexBean.date}"/>
+                </h:form>
+            </p:tab>
+
+
+            <p:tab title="Table">
+                <p:dataTable var="student" value="#{indexBean.students}" rows="3" paginator="true">
+                    <p:column field="name" headerText="Name" filterable="false" sortable="false"/>
+                    <p:column field="surname" headerText="Surname" filterable="false"/>
+                    <p:column field="average" headerText="Average" filterable="false"/>
+                </p:dataTable>
+            </p:tab>
+
+            <p:tab title="Chart">
+                <p:chart type="line" model="#{indexBean.model}" />
+            </p:tab>
+        </p:tabView>
+
+    </h:body>
+</html>
+
