@@ -1,0 +1,67 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+    <script type="text/javascript">
+         $(document).ready(function() {
+             $("#calc").click(function () {
+                 var x = $("#x").val();
+                 var y = $("#y").val();
+                 var data = {"x": x, "y":y};
+                 $.get("/math", data, res => {
+                    $("#sum").text(res["sum"]);
+                    $("#difference").text(res["difference"]);
+                    $("#product").text(res["product"]);
+                    $("#quotient").text(res["quotient"]);
+                 });
+             });
+         });
+
+        window.onload = _ => {
+            var btn = document.getElementById("calc2");
+            var x = document.getElementById("x");
+            var y = document.getElementById("y");
+        
+            var sum = document.getElementById("sum");
+            var difference = document.getElementById("difference");
+            var product = document.getElementById("product");
+            var quotient = document.getElementById("quotient");
+
+            btn.onclick = _ => {
+                var xhttp = new XMLHttpRequest();                
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                         var res = JSON.parse(this.responseText);
+                         console.log(res);
+
+                         sum.textContent = res["sum"];
+                         difference.textContent = res["difference"];
+                         product.textContent = res["product"];
+                         quotient.textContent = res["quotient"];
+                    }
+                };
+                xhttp.open("GET", `/math?x=${x.value}&y=${y.value}`, true);
+                xhttp.setRequestHeader('Content-Type', 'application/json')
+                xhttp.send();
+            }
+        }
+    </script>
+    <div>
+        <h1>Calculations</h1>
+        <form>
+            x = <input type="text" id="x" />
+            y = <input type="text" id="y" />
+            <input type="button" id="calc" value="Call API (jQuery)" />
+            <input type="button" id="calc2" value="Call API (vanilla JS)" />
+        </form>
+        x + y = <span id="sum"></span><br />
+        x - y = <span id="difference"></span><br />
+        x * y = <span id="product"></span><br />
+        x / y = <span id="quotient"></span><br />
+    </div>
+</body>
+</html>
